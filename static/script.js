@@ -1,14 +1,15 @@
+  });
+}
+
 function drawCharts(risk) {
   const pieCtx = document.getElementById('pieChart').getContext('2d');
   const barCtx = document.getElementById('barChart').getContext('2d');
 
   const safe = Math.max(0, 100 - risk);
 
-  // Destroy old charts if they exist
   if (pieChart) pieChart.destroy();
   if (barChart) barChart.destroy();
 
-  // PIE CHART (red = risk, green = safe)
   pieChart = new Chart(pieCtx, {
     type: 'doughnut',
     data: {
@@ -23,7 +24,6 @@ function drawCharts(risk) {
     options: { responsive: true }
   });
 
-  // BAR CHART (red = risk, green = safe)
   barChart = new Chart(barCtx, {
     type: 'bar',
     data: {
@@ -43,4 +43,12 @@ function drawCharts(risk) {
       }
     }
   });
+}
+
+function playSummary(lines) {
+  if (!lines || !lines.length) return;
+  const utter = new SpeechSynthesisUtterance(lines.join('. '));
+  const lang = document.getElementById('lang').value || 'en';
+  utter.lang = lang === 'hi' ? 'hi-IN' : (lang === 'te' ? 'te-IN' : 'en-US');
+  speechSynthesis.speak(utter);
 }
