@@ -133,6 +133,7 @@ function showResults(data) {
   playSummary(data.summary_local || data.summary);
 }
 
+// ✅ only this function modified to add colors
 function drawCharts(risk) {
   const pieCtx = document.getElementById('pieChart').getContext('2d');
   const barCtx = document.getElementById('barChart').getContext('2d');
@@ -143,7 +144,10 @@ function drawCharts(risk) {
     type: 'doughnut',
     data: {
       labels: ['Risk', 'Safe'],
-      datasets: [{ data: [risk, safe] }]
+      datasets: [{
+        data: [risk, safe],
+        backgroundColor: ['#FF0000', '#00FF00'] // 🔴 Risk = Red, 🟢 Safe = Green
+      }]
     },
     options: { responsive: true }
   });
@@ -152,12 +156,18 @@ function drawCharts(risk) {
   barChart = new Chart(barCtx, {
     type: 'bar',
     data: {
-      labels: ['Risk Level'],
-      datasets: [{ label: 'Risk %', data: [risk] }]
+      labels: ['Risk', 'Safe'],
+      datasets: [{
+        label: 'Health Status',
+        data: [risk, safe],
+        backgroundColor: ['#FF0000', '#00FF00'] // same color logic
+      }]
     },
     options: {
       responsive: true,
-      scales: { y: { beginAtZero: true, max: 100 } }
+      scales: {
+        y: { beginAtZero: true, max: 100 }
+      }
     }
   });
 }
