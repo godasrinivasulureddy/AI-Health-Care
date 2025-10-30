@@ -133,38 +133,58 @@ function showResults(data) {
   playSummary(data.summary_local || data.summary);
 }
 
+// ✅ Updated chart function — pie chart untouched, bar chart improved
 function drawCharts(risk) {
   const pieCtx = document.getElementById('pieChart').getContext('2d');
   const barCtx = document.getElementById('barChart').getContext('2d');
   const safe = Math.max(0, 100 - risk);
 
   if (pieChart) pieChart.destroy();
+  if (barChart) barChart.destroy();
+
+  // PIE CHART (unchanged)
   pieChart = new Chart(pieCtx, {
     type: 'doughnut',
     data: {
       labels: ['Risk', 'Safe'],
       datasets: [{
         data: [risk, safe],
-        backgroundColor: ['#ff4d4d', '#4da6ff'] // Red for Risk, Blue for Safe
+        backgroundColor: ['#ff4d4d', '#4da6ff'], // Red for Risk, Blue for Safe
+        borderWidth: 1
       }]
     },
     options: { responsive: true }
   });
 
-  if (barChart) barChart.destroy();
+  // BAR CHART (now shows both Risk & Safe as vertical bars)
   barChart = new Chart(barCtx, {
     type: 'bar',
     data: {
-      labels: ['Risk Level'],
+      labels: ['Risk', 'Safe'],
       datasets: [{
-        label: 'Risk %',
-        data: [risk],
-        backgroundColor: '#ff4d4d' // Red bar for risk
+        label: 'Health Analysis (%)',
+        data: [risk, safe],
+        backgroundColor: ['#ff4d4d', '#4da6ff'], // Red for Risk, Blue for Safe
+        borderWidth: 1
       }]
     },
     options: {
       responsive: true,
-      scales: { y: { beginAtZero: true, max: 100 } }
+      indexAxis: 'x', // ensures vertical bars
+      scales: {
+        y: {
+          beginAtZero: true,
+          max: 100,
+          title: { display: true, text: 'Percentage' }
+        },
+        x: {
+          title: { display: true, text: 'Category' }
+        }
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: { enabled: true }
+      }
     }
   });
 }
