@@ -4,40 +4,33 @@ function drawCharts(risk) {
 
   const safe = Math.max(0, 100 - risk);
 
-  // destroy old charts if already exist
+  // PIE CHART (Red for risk, Green for safe)
   if (pieChart) pieChart.destroy();
-  if (barChart) barChart.destroy();
-
-  // PIE / DOUGHNUT CHART
   pieChart = new Chart(pieCtx, {
     type: 'doughnut',
     data: {
       labels: ['Risk', 'Safe'],
       datasets: [{
         data: [risk, safe],
-        backgroundColor: ['#ff3b3b', '#00cc66'], // red for risk, green for safe
-        borderWidth: 0
+        backgroundColor: ['#FF0000', '#00FF00'], // red & green
+        borderColor: ['#FF0000', '#00FF00'],
+        borderWidth: 1
       }]
     },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: {
-          position: 'bottom'
-        }
-      }
-    }
+    options: { responsive: true }
   });
 
-  // BAR CHART
+  // BAR CHART (Red for risk, Green for safe)
+  if (barChart) barChart.destroy();
   barChart = new Chart(barCtx, {
     type: 'bar',
     data: {
-      labels: ['Risk Level'],
+      labels: ['Risk', 'Safe'],
       datasets: [{
-        label: 'Risk %',
-        data: [risk],
-        backgroundColor: risk >= 70 ? '#ff3b3b' : (risk >= 30 ? '#ffcc00' : '#00cc66'), // dynamic color
+        label: 'Health Risk Analysis (%)',
+        data: [risk, safe],
+        backgroundColor: ['#FF0000', '#00FF00'], // red & green
+        borderColor: ['#FF0000', '#00FF00'],
         borderWidth: 1
       }]
     },
