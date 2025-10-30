@@ -143,7 +143,10 @@ function drawCharts(risk) {
     type: 'doughnut',
     data: {
       labels: ['Risk', 'Safe'],
-      datasets: [{ data: [risk, safe] }]
+      datasets: [{
+        data: [risk, safe],
+        backgroundColor: ['#ff4d4d', '#4da6ff'] // Red for Risk, Blue for Safe
+      }]
     },
     options: { responsive: true }
   });
@@ -153,7 +156,11 @@ function drawCharts(risk) {
     type: 'bar',
     data: {
       labels: ['Risk Level'],
-      datasets: [{ label: 'Risk %', data: [risk] }]
+      datasets: [{
+        label: 'Risk %',
+        data: [risk],
+        backgroundColor: '#ff4d4d' // Red bar for risk
+      }]
     },
     options: {
       responsive: true,
