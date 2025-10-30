@@ -1,6 +1,5 @@
 Flask==2.2.5
 Flask-Cors==3.0.10
-googletrans==4.0.0-rc1
-httpx==0.13.3
-httpcore==0.9.1
-
+googletrans==4.0.0rc1
+httpx==0.24.1
+httpcore==0.17.3
