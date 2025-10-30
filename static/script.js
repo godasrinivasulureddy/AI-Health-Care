@@ -3,6 +3,10 @@ function drawCharts(risk) {
   const barCtx = document.getElementById('barChart').getContext('2d');
   const safe = Math.max(0, 100 - risk);
 
+  // keep previous color tones — pinkish red & blue
+  const riskColor = '#e91e63'; // same as current pink/red
+  const safeColor = '#2196f3'; // same as current blue
+
   if (pieChart) pieChart.destroy();
   pieChart = new Chart(pieCtx, {
     type: 'doughnut',
@@ -10,9 +14,9 @@ function drawCharts(risk) {
       labels: ['Risk', 'Safe'],
       datasets: [{
         data: [risk, safe],
-        backgroundColor: ['#FF0000', '#00FF00'], // red & green
-        borderColor: ['#FF0000', '#00FF00'],
-        hoverBackgroundColor: ['#CC0000', '#009900'] // darker on hover
+        backgroundColor: [riskColor, safeColor],
+        borderColor: [riskColor, safeColor],
+        hoverBackgroundColor: ['#c2185b', '#1976d2'] // slightly darker hover
       }]
     },
     options: {
@@ -31,22 +35,16 @@ function drawCharts(risk) {
       datasets: [{
         label: 'Health Risk Analysis',
         data: [risk, safe],
-        backgroundColor: ['#FF0000', '#00FF00'], // red & green
-        borderColor: ['#FF0000', '#00FF00'],
+        backgroundColor: [riskColor, safeColor],
+        borderColor: [riskColor, safeColor],
         borderWidth: 1
       }]
     },
     options: {
       responsive: true,
       scales: {
-        y: {
-          beginAtZero: true,
-          max: 100,
-          ticks: { color: '#000' }
-        },
-        x: {
-          ticks: { color: '#000' }
-        }
+        y: { beginAtZero: true, max: 100, ticks: { color: '#000' } },
+        x: { ticks: { color: '#000' } }
       },
       plugins: {
         legend: { labels: { color: '#000' } }
